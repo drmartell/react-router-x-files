@@ -13,7 +13,7 @@ export default function useCharacters() {
 
   useEffect(() => {
     setIfLoadingList(true);
-    getCharacters(page)
+    getCharacters(perPage, page)
       .then(setCharacters)
       .then(setIfLoadingList(false))
       .catch(console.log); //eslint-disable-line no-console
