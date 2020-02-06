@@ -1,17 +1,18 @@
 import { useEffect, useState } from 'react';
-import getCharacter from '../services/getCharacter';
+import { useParams } from 'react-router-dom';
+import getCharacterByName from '../services/getCharacterByName';
 
-export default function useCharacter() {
-  const [name, setName] = useState([]);
-  const [loadingDetail, setLoadingDetail] = useState(true);
+export default function useCharacter(name) {
+  const [character, setCharacter] = useState('');
+  const [ifLoadingDetail, setIfLoadingDetail] = useState(true);
 
   useEffect(() => {
-    setLoadingDetail(true);
-    getCharacter(name)
-      .then(setName)
-      .then(setLoadingDetail(false))
+    setIfLoadingDetail(true);
+    getCharacterByName(name)
+      .then(setCharacter)
+      .then(setIfLoadingDetail(false))
       .catch(console.log); //eslint-disable-line no-console
   }, [name]);
 
-  return { setName, loadingDetail };
+  return { character, ifLoadingDetail };
 }

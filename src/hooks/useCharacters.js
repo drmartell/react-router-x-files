@@ -5,15 +5,19 @@ export default function useCharacters() {
   const [perPage, setPerPage] = useState(5);
   const [page, setPage] = useState(1);
   const [characters, setCharacters] = useState([]);
-  const [loadingList, setLoadingList] = useState(true);
+  const [ifLoadingList, setIfLoadingList] = useState(true);
+
+  const handlePaging = increment => increment ?
+    setPage(currentPage => Math.min(currentPage + 1, 24)) :
+    setPage(currentPage => Math.max(currentPage - 1, 0));
 
   useEffect(() => {
-    setLoadingList(true);
+    setIfLoadingList(true);
     getCharacters(page)
       .then(setCharacters)
-      .then(setLoadingList(false))
+      .then(setIfLoadingList(false))
       .catch(console.log); //eslint-disable-line no-console
   }, [page]);
 
-  return { perPage, setPerPage, page, setPage, characters, loadingList };
+  return { perPage, setPerPage, page, handlePaging, characters, ifLoadingList };
 }

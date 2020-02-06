@@ -1,28 +1,29 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import useCharacters from '../hooks/useCharacters';
 
 export default function Home() {
-  const { page, setPage, characters, loadingList } = useCharacters();
+  const { page, handlePaging, characters, ifLoadingList } = useCharacters();
 
-  const handlePaging = (increment) => increment ?
-    setPage(currentPage => Math.min(currentPage + 1, 24)) :
-    setPage(currentPage => Math.max(currentPage - 1, 0));
-
-  return loadingList ? 
-    <h1>LOADING...</h1> :
+  return ifLoadingList ? <h1>LOADING...</h1> :
     
-    (<>
-      <ul>
-        {characters.map(character => (
-          <li key={character.id}>
-            <figure>
-              <img src={character.image} />
-              <figcaption>{character.name}</figcaption>
-            </figure>
-          </li>
-        ))}
-      </ul>
-      <button onClick={() => handlePaging(false)}>Prev</button>
-      <button onClick={() => handlePaging(true)}>Next</button>
-    </>);
+    (
+      <>
+        <ul>
+          {characters.map(({ id, image, name }) => (
+            <li key={id}>
+              <Link to={`/${name}`}>
+                <figure>
+                  <img src={image} />
+                  <figcaption>{name}</figcaption>
+                </figure>
+              </Link>
+            </li>
+          ))}
+        </ul>
+        <button onClick={() => handlePaging(false)}>Prev</button>
+        <span>{page}</span>
+        <button onClick={() => handlePaging(true)}>Next</button>
+      </>
+    );
 }
