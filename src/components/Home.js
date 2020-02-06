@@ -5,14 +5,14 @@ import useCharacters from '../hooks/useCharacters';
 export default function Home() {
   const { page, handlePaging, characters, ifLoadingList } = useCharacters();
 
-  return ifLoadingList ? <h1>LOADING...</h1> :
+  return ifLoadingList || characters.length === 0 ? <h1>LOADING...</h1> :
     
     (
       <>
         <ul>
           {characters.map(({ id, image, name }) => (
             <li key={id}>
-              <Link to={`/${name}`}>
+              <Link to={`/${name.replace(' ', '-')}`}>
                 <figure>
                   <img src={image} />
                   <figcaption>{name}</figcaption>
