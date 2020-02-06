@@ -6,15 +6,16 @@ export default function Details({ match }) {
 
   const { character: { name, image, description }, ifLoadingDetails } = useCharacter(match.params.name);
 
-  return ifLoadingDetails ? <h1>LOADING...</h1> :
+  return ifLoadingDetails || !name ? <h1>LOADING...</h1> :
 
     (
       <div>
         <figure>
           <img src={image} />
-          <figcaption>{`${name}
-          
-${description}`}</figcaption>
+          <figcaption>
+            <p>{name}</p>
+            <p>{description}</p>
+          </figcaption>
         </figure>
       </div>
     );
